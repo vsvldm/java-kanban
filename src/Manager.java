@@ -199,10 +199,8 @@ public class Manager {
             newStatus = "IN_PROGRESS";
         }
 
-        if (!newStatus.equals(epic.getStatus())) {
-            Epic updatedEpic = new Epic(epicId, epic.getTitle(), epic.getDescription(), newStatus, epic.getSubtaskIds());
-            updateEpic(updatedEpic);
-        }
+        epic.setStatus(newStatus);
+
     }
     @Override
     public String toString() {
