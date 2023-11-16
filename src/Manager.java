@@ -1,19 +1,16 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Manager {
     private int id = 0;
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
 
-    @Override
-    public String toString() {
-        return "Manager{" +
-                "tasks=" + tasks.toString() +
-                ", epics=" + epics.toString() +
-                ", subtasks=" + subtasks.toString() +
-                '}';
+    public int getId() {
+        return id;
     }
 
     public Task getTask(int taskId) {
@@ -37,31 +34,31 @@ public class Manager {
         return null;
     }
 
-    public HashMap<Integer, Task> getTasks() {
-        return tasks;
+    public List<Task> getTasks() {
+        List<Task> listTasks = new ArrayList<>(tasks.values());
+        return listTasks;
     }
 
-    public HashMap<Integer, Epic> getEpics() {
-        return epics;
+    public List<Epic> getEpics() {
+        List<Epic> listEpics = new ArrayList<>(epics.values());
+        return listEpics;
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public List<Subtask> getSubtasks() {
+        List<Subtask> listSubtasks = new ArrayList<>(subtasks.values());
+        return listSubtasks;
     }
 
-    public void createTask(String title, String description) {
-        Task task = new Task(++id, title, description, "NEW");
+    public void createTask(Task task) {
         tasks.put(task.getId(), task);
     }
 
-    public void createEpic(String title, String description) {
-        Epic epic = new Epic(++id, title, description, "NEW", new ArrayList<>());
+    public void createEpic(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
-    public void createSubtask(int epicId, String title, String description) {
+    public void createSubtask(int epicId, Subtask subtask) {
         if (epics.containsKey(epicId)) {
-            Subtask subtask = new Subtask(++id, title, description, "NEW", epicId);
             subtasks.put(subtask.getId(), subtask);
             Epic epic = epics.get(epicId);
             epic.subtaskIds.add(subtask.getId());
@@ -78,10 +75,14 @@ public class Manager {
 
     private void removeSubtasks() {
         subtasks.clear();
+        for (Epic epic : epics.values()) {
+            epic.subtaskIds.clear();
+        }
     }
 
     private void removeEpics() {
         epics.clear();
+        subtasks.clear();
     }
 
     public void removeTasks() {
@@ -116,13 +117,13 @@ public class Manager {
         epic.getSubtaskIds().remove((Integer) subtaskId);
     }
 
-    public ArrayList<Subtask> getSubtasksByEpic(int epicId) {
+    public List<Subtask> getSubtasksByEpic(int epicId) {
         Epic epic = getEpic(epicId);
         if (epic == null) {
             return null;
         }
 
-        ArrayList<Subtask> subtasks = new ArrayList<>();
+        List<Subtask> subtasks = new ArrayList<>();
 
         for (Integer subtaskId : epic.subtaskIds) {
             Subtask subtask = getSubtask(subtaskId);
@@ -202,5 +203,13 @@ public class Manager {
             Epic updatedEpic = new Epic(epicId, epic.getTitle(), epic.getDescription(), newStatus, epic.getSubtaskIds());
             updateEpic(updatedEpic);
         }
+    }
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "tasks=" + tasks.toString() +
+                ", epics=" + epics.toString() +
+                ", subtasks=" + subtasks.toString() +
+                '}';
     }
 }
