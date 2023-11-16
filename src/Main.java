@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -87,22 +88,25 @@ public class Main {
                  System.out.println("Введите ID эпика, который хотите обновить:");
                  int epicId = Integer.parseInt(sc.nextLine());
 
-                 Epic epic = manager.getEpics().get(epicId);
+                 List<Epic> epics = manager.getEpics();
+                 for (Epic epic : epics) {
+                     if(epic.id == epicId){
+                         System.out.println(manager.getSubtasksByEpic(epicId).toString());
 
-                 System.out.println(manager.getSubtasksByEpic(epicId).toString());
+                         System.out.println("Введите ID подзадачи, которую вы сделали или готовы начать делать?");
+                         int subtaskId = Integer.parseInt(sc.nextLine());
 
-                 System.out.println("Введите ID подзадачи, которую вы сделали или готовы начать делать?");
-                 int subtaskId = Integer.parseInt(sc.nextLine());
-
-                 Subtask subtask = manager.getSubtasks().get(subtaskId);
-
-                 System.out.println("Введите новый статус(NEW, IN_PROGRESS, DONE):");
-                 subtask.status = sc.nextLine();
-
-
-                 manager.updateSubtask(subtask);
-                 manager.updateEpic(epic);
-
+                         List<Subtask> subtasks = manager.getSubtasks();
+                         for (Subtask subtask : subtasks) {
+                             if (subtask.id == subtaskId) {
+                                 System.out.println("Введите новый статус(NEW, IN_PROGRESS, DONE):");
+                                 subtask.status = sc.nextLine();
+                                 manager.updateSubtask(subtask);
+                             }
+                         }
+                         manager.updateEpic(epic);
+                     }
+                 }
                  System.out.println(manager.toString());
 
              } else if (command == 8) {
