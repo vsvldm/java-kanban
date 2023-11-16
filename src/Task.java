@@ -4,16 +4,6 @@ public class Task {
     protected String description;
     protected String status;
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                '}';
-    }
-
     public Task(int id, String title, String description, String status) {
         this.id = id;
         this.title = title;
@@ -35,5 +25,15 @@ public class Task {
 
     public String getStatus() {
         return status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
