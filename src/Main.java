@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -5,6 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Manager manager = new Manager();
         Scanner sc = new Scanner(System.in);
+        int id = manager.getId();
 
         while (true) {
             System.out.println("Введите команду:");
@@ -15,7 +17,8 @@ public class Main {
             System.out.println("5 - Удалить эпик");
             System.out.println("6 - Обновить статус задачи");
             System.out.println("7 - Обновить статус эпика");
-            System.out.println("8 - Удалить все");
+            System.out.println("8 - Работа методов get...");
+            System.out.println("9 - Удалить все");
             System.out.println("0 - Выход");
 
             int command = Integer.parseInt(sc.nextLine());
@@ -30,7 +33,7 @@ public class Main {
                  System.out.println("Описане:");
                  String description = sc.nextLine();
 
-                 manager.createTask(title, description);
+                 manager.createTask(new Task(++id, title, description, "NEW"));
                  System.out.println(manager.toString());
 
              } else if (command == 2) {
@@ -40,7 +43,7 @@ public class Main {
                  System.out.println("Описане:");
                  String description = sc.nextLine();
 
-                 manager.createEpic(title, description);
+                 manager.createEpic(new Epic(++id, title, description, "NEW", new ArrayList<>()));
 
                  System.out.println(manager.toString());
 
@@ -53,8 +56,7 @@ public class Main {
 
                  System.out.println("Описане:");
                  String description = sc.nextLine();
-
-                 manager.createSubtask(epicId, title, description);
+                 manager.createSubtask(epicId, new Subtask(++id, title, description, "NEW", epicId));
                  System.out.println(manager.toString());
 
              } else if (command == 4) {
@@ -104,6 +106,10 @@ public class Main {
                  System.out.println(manager.toString());
 
              } else if (command == 8) {
+                 System.out.println(manager.getTasks());
+                 System.out.println(manager.getEpics());
+                 System.out.println(manager.getSubtasks());
+             } else if (command == 9) {
                  manager.removeAllTasks();
                  System.out.println(manager.toString());
              }
