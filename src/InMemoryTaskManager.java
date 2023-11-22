@@ -168,9 +168,15 @@ public class InMemoryTaskManager implements TaskManager {
                 ", subtasks=" + subtasks +
                 '}';
     }
+
+    @Override
+    public List<Task> getHistory() {
+        return new InMemoryHistoryManager().getHistory();
+    }
+
     private void generateNewEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
-        if(epic == null){
+        if (epic == null) {
             return;
         }
 
