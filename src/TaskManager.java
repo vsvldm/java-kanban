@@ -19,4 +19,7 @@ public interface TaskManager {
     boolean updateTask(Task updatedTask);
     boolean updateEpic(Epic updatedEpic);
     boolean updateSubtask(Subtask updatedSubtask);
+
+    /*Я так понимаю, что это единственный способ связаться с вами.
+    Не могу понять для чего мне добавлять в TaskManager метод getHistory(), если этим уже занимается HistoryManager?*/
 }
