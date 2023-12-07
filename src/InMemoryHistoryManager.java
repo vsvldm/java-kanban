@@ -13,10 +13,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    Map<Integer, Node> nodes = new HashMap<>();
+    private final Map<Integer, Node> nodes = new HashMap<>();
 
-    Node head;
-    Node tail;
+    private Node head;
+    private Node tail;
 
     @Override
     public void add(Task task) {
@@ -34,12 +34,15 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public List <Task> getHistory() {
+    public List<Task> getHistory() {
         List<Task> history = new ArrayList<>();
-        List<Node> tasks = getTasks();
-        for (Node task : tasks) {
-            history.add(task.task);
+
+        Node node = head;
+        while (node != null){
+            history.add(node.task);
+            node = node.next;
         }
+
         return history;
     }
 
@@ -61,14 +64,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.next.prev = node.prev;
             return;
         }
-    }
-
-    private List<Node> getTasks() {
-        final List<Node> customList = new ArrayList<>();
-        if(!nodes.isEmpty()){
-            customList.addAll(nodes.values());
-        }
-        return customList;
     }
 
     private void linkLast(Task task) {
