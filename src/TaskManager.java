@@ -20,4 +20,7 @@ public interface TaskManager {
     boolean updateEpic(Epic updatedEpic);
     boolean updateSubtask(Subtask updatedSubtask);
     List<Task> getHistory();
+    void taskInProgress(Task task);
+    void taskIsDone(Task task);
+    public HistoryManager getHistoryManager();
 }

@@ -9,6 +9,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Epic> epics = new HashMap<>();
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
+
     @Override
     public int getId() {
         return id;
@@ -66,17 +67,23 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
+        task.type = TypeTask.TASK;
+        task.status = Status.NEW;
         tasks.put(task.getId(), task);
     }
 
     @Override
     public void createEpic(Epic epic) {
+        epic.type = TypeTask.EPIC;
+        epic.status = Status.NEW;
         epics.put(epic.getId(), epic);
     }
 
     @Override
     public void createSubtask(int epicId, Subtask subtask) {
         if (epics.containsKey(epicId)) {
+            subtask.type = TypeTask.SUBTASK;
+            subtask.status = Status.NEW;
             subtasks.put(subtask.getId(), subtask);
             Epic epic = epics.get(epicId);
             epic.getSubtaskIds().add(subtask.getId());
@@ -177,6 +184,22 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
+    @Override
+    public void taskInProgress(Task task) {
+        task.status = Status.IN_PROGRESS;
+
+    }
+
+    @Override
+    public void taskIsDone(Task task) {
+        task.status = Status.DONE;
+    }
+
+    @Override
+    public HistoryManager getHistoryManager() {
+        return historyManager;
+    }
+
     private void generateNewEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic == null) {
@@ -205,14 +228,14 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
 
-        String newStatus;
+        Status newStatus;
 
         if (onlyNewStatuses) {
-            newStatus = String.valueOf(Status.NEW);
+            newStatus = Status.NEW;
         } else if (onlyDoneStatuses) {
-            newStatus = String.valueOf(Status.DONE);
+            newStatus = Status.DONE;
         } else {
-            newStatus = String.valueOf(Status.IN_PROGRESS);
+            newStatus = Status.IN_PROGRESS;
         }
 
         epic.setStatus(newStatus);
