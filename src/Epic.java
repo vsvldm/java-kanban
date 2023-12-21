@@ -8,6 +8,10 @@ public class Epic extends Task{
         this.subtaskIds = subtaskIds;
     }
 
+    public Epic(int id, TypeTask type, String title, String description, Status status) {
+        super(id, type, title, description, status);
+    }
+
     public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }

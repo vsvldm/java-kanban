@@ -9,6 +9,13 @@ public class Task {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public Task(int id, TypeTask type, String title, String description, Status status) {
+        this.id = id;
+        this.type = type;
+        this.title = title;
+        this.description = description;
         this.status = status;
     }
 
