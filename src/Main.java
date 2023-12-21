@@ -36,7 +36,7 @@ public class Main {
                  System.out.println("Описане:");
                  String description = sc.nextLine();
 
-                 taskManager.createTask(new Task(++id, title, description, "NEW"));
+                 taskManager.createTask(new Task(++id, title, description));
                  System.out.println(taskManager);
 
              } else if (command == 2) {
@@ -46,7 +46,7 @@ public class Main {
                  System.out.println("Описане:");
                  String description = sc.nextLine();
 
-                 taskManager.createEpic(new Epic(++id, title, description, "NEW", new ArrayList<>()));
+                 taskManager.createEpic(new Epic(++id, title, description, new ArrayList<>()));
 
                  System.out.println(taskManager);
 
@@ -59,7 +59,7 @@ public class Main {
 
                  System.out.println("Описане:");
                  String description = sc.nextLine();
-                 taskManager.createSubtask(epicId, new Subtask(++id, title, description, "NEW", epicId));
+                 taskManager.createSubtask(epicId, new Subtask(++id, title, description, epicId));
                  System.out.println(taskManager);
 
              } else if (command == 4) {
@@ -96,8 +96,21 @@ public class Main {
                  List<Task> tasks = taskManager.getTasks();
                  for (Task task : tasks) {
                      if(task.id == taskId) {
-                         System.out.println("Введите новый статус для задачи(NEW, IN_PROGRESS, DONE):");
-                         task.status = sc.nextLine();
+
+                         System.out.println("Выберите новый статус для задачи(1 - IN_PROGRESS, 2 - DONE):");
+
+                         int choice = Integer.parseInt(sc.nextLine());
+
+                             switch (choice) {
+                                 case 1:
+                                     taskManager.taskInProgress(task);
+                                     break;
+                                 case 2:
+                                     taskManager.taskIsDone(task);
+                                     break;
+                                 default:
+                                     break;
+                             }
 
                          taskManager.updateTask(task);
                          System.out.println(taskManager);
@@ -121,8 +134,21 @@ public class Main {
                          List<Subtask> subtasks = taskManager.getSubtasks();
                          for (Subtask subtask : subtasks) {
                              if (subtask.id == subtaskId) {
-                                 System.out.println("Введите новый статус(NEW, IN_PROGRESS, DONE):");
-                                 subtask.status = sc.nextLine();
+                                 System.out.println("Выберите новый статус для подзадачи(1 - IN_PROGRESS, 2 - DONE):");
+
+                                 int choice = Integer.parseInt(sc.nextLine());
+
+                                     switch (choice) {
+                                         case 1:
+                                             taskManager.taskInProgress(subtask);
+                                             break;
+                                         case 2:
+                                             taskManager.taskIsDone(subtask);
+                                             break;
+                                         default:
+                                             break;
+                                     }
+
                                  taskManager.updateSubtask(subtask);
                              }
                          }
