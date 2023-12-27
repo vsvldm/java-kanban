@@ -1,9 +1,13 @@
 id,type,title,status,description,epic
-1,TASK,sdfsdf,NEW,sdfsdf
+1,TASK,sdfsdf,IN_PROGRESS,sdfsdf
 2,TASK,dfsdf,NEW,sdfsdf
-3,EPIC,bnvbn,NEW,vbnvbn
+7,TASK,asdasd,NEW,asdasd
+10,TASK,qweqw,NEW,sadasd
+3,EPIC,bnvbn,IN_PROGRESS,vbnvbn
+8,EPIC,iopio,DONE,opiop
 4,SUBTASK,sdasd,NEW,asdasd,3
-5,SUBTASK,rtyrtyr,NEW,rtyrty,3
+5,SUBTASK,rtyrtyr,IN_PROGRESS,rtyrty,3
 6,SUBTASK,yuiyui,NEW,uiyuiyi,3
+9,SUBTASK,iouio,DONE,uiouio,8
 
-2,3,4,5,6,1
+7,2,3,4,5,6,8,9,1
