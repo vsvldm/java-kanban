@@ -61,10 +61,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "{" + id + "," +
+        return id + "," +
                 type.toString() + "," +
                 title + "," +
                 status.toString() + "," +
-                description + "}";
+                description;
     }
 }
