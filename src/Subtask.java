@@ -17,11 +17,11 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "{" + id + "," +
+        return id + "," +
                 type.toString() + "," +
                 title + "," +
                 status.toString() + "," +
                 description + "," +
-                epicId + "}";
+                epicId;
     }
 }
