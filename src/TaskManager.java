@@ -22,5 +22,6 @@ public interface TaskManager {
     List<Task> getHistory();
     void taskInProgress(Task task);
     void taskIsDone(Task task);
-    public HistoryManager getHistoryManager();
+    HistoryManager getHistoryManager();
+    public List<Task> getAllTasks ();
 }
