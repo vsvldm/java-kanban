@@ -49,6 +49,18 @@ public class InMemoryHistoryManager implements HistoryManager {
         return history;
     }
 
+    @Override
+    public String toString() {
+        List<Task> taskHistory = getHistory();
+        StringBuilder sb = new StringBuilder();
+        for (Task task : taskHistory) {
+            sb.append(task.id).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+
+        return sb.toString();
+    }
+
     private void removeNode(Node node) {
         nodes.remove(node.task.getId());
 
