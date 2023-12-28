@@ -19,14 +19,6 @@ public class InMemoryTaskManager implements TaskManager {
         this.allTasks = new ArrayList<>();
     }
 
-    public List<Task> getAllTasks () {
-        allTasks.clear();
-        allTasks.addAll(tasks.values());
-        allTasks.addAll(epics.values());
-        allTasks.addAll(subtasks.values());
-        return allTasks;
-    }
-
     @Override
     public int getId() {
         return id;
