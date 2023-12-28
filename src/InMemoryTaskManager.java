@@ -215,6 +215,35 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager;
     }
 
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public void putTask(Task task) {
+        tasks.put(task.id, task);
+    }
+
+    @Override
+    public void putEpic(Epic epic) {
+        epics.put(epic.id, epic);
+    }
+
+    @Override
+    public void putSubtask(Subtask subtask) {
+        subtasks.put(subtask.id, subtask);
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        allTasks.clear();
+        allTasks.addAll(tasks.values());
+        allTasks.addAll(epics.values());
+        allTasks.addAll(subtasks.values());
+        return allTasks;
+    }
+
     private void generateNewEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic == null) {

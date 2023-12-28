@@ -23,5 +23,9 @@ public interface TaskManager {
     void taskInProgress(Task task);
     void taskIsDone(Task task);
     HistoryManager getHistoryManager();
-    public List<Task> getAllTasks ();
+    List<Task> getAllTasks ();
+    void setId(int id);
+    void putTask(Task task);
+    void putEpic(Epic epic);
+    void putSubtask(Subtask subtask);
 }
