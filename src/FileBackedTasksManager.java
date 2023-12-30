@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-
+    String path = "resources/tasks.csv";
     public FileBackedTasksManager(HistoryManager historyManager) {
         super(historyManager);
     }
@@ -173,7 +173,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private void save() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(("resources/tasks.csv")))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             writer.write("id,type,title,status,description,epic" + "\n");
             for (Task task : getAllTasks()) {
                 writer.write(taskToString(task) + "\n");
