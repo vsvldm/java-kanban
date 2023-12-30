@@ -86,10 +86,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return subtask;
     }
 
-    private String taskToString(Task task) {
-        return task.toString();
-    }
-
     private static Task stringToTask(String string) {
         String[] split = string.split(",");
         int id = Integer.parseInt(split[0]);
@@ -176,7 +172,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             writer.write("id,type,title,status,description,epic" + "\n");
             for (Task task : getAllTasks()) {
-                writer.write(taskToString(task) + "\n");
+                writer.write(task.toString() + "\n");
             }
             writer.write("\n");
             writer.write(historyToString(getHistoryManager()));
