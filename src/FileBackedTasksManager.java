@@ -119,23 +119,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static FileBackedTasksManager loadFromFile(File file) {
         FileBackedTasksManager fbTaskManager = Managers.getFileBackedTasksManager();
-        List<String> tasksList = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            reader.readLine();
             String line;
-            int i = 1;
             while ((line = reader.readLine()) != null) {
-                if (i == 1){
-                    i = 0;
-                    continue;
+                if (line.isEmpty()) {
+                    break;
                 }
-                if (!line.isEmpty()) {
-                    tasksList.add(line);
-                }
-            }
-            String historyString = tasksList.get(tasksList.size() - 1);
-            tasksList.remove(tasksList.size() - 1);
-            for (String taskString : tasksList) {
-                Task task = stringToTask(taskString);
+                Task task = stringToTask(line);
                 if (task.type.equals(TypeTask.TASK)) {
                     fbTaskManager.putTask(task);
                 } else if (task.type.equals(TypeTask.EPIC)) {
@@ -152,6 +143,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     }
                 }
             }
+            String historyString = reader.readLine();
             List<Integer> historyList = stringToHistory(historyString);
             List<Task> allTasks = fbTaskManager.getAllTasks();
             for (Integer taskId : historyList) {
@@ -181,7 +173,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
 
     }
-
 
     public static void main(String[] args) {
         File file = new File("resources", "tasks.csv");
