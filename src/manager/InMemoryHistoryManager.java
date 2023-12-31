@@ -1,3 +1,7 @@
+package manager;
+
+import module.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +58,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         List<Task> taskHistory = getHistory();
         StringBuilder sb = new StringBuilder();
         for (Task task : taskHistory) {
-            sb.append(task.id).append(",");
+            sb.append(task.getId()).append(",");
         }
         sb.deleteCharAt(sb.length() - 1);
 

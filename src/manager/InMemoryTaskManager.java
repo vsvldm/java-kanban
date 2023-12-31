@@ -1,3 +1,7 @@
+package manager;
+
+import module.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,23 +80,23 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
-        task.type = TypeTask.TASK;
-        task.status = Status.NEW;
+        task.setType(TypeTask.TASK);
+        task.setStatus(Status.NEW);
         tasks.put(task.getId(), task);
     }
 
     @Override
     public void createEpic(Epic epic) {
-        epic.type = TypeTask.EPIC;
-        epic.status = Status.NEW;
+        epic.setType(TypeTask.EPIC);
+        epic.setStatus(Status.NEW);
         epics.put(epic.getId(), epic);
     }
 
     @Override
     public void createSubtask(int epicId, Subtask subtask) {
         if (epics.containsKey(epicId)) {
-            subtask.type = TypeTask.SUBTASK;
-            subtask.status = Status.NEW;
+            subtask.setType(TypeTask.SUBTASK);
+            subtask.setStatus(Status.NEW);
             subtasks.put(subtask.getId(), subtask);
             Epic epic = epics.get(epicId);
             epic.getSubtaskIds().add(subtask.getId());
@@ -190,13 +194,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void taskInProgress(Task task) {
-        task.status = Status.IN_PROGRESS;
+        task.setStatus(Status.IN_PROGRESS);
 
     }
 
     @Override
     public void taskIsDone(Task task) {
-        task.status = Status.DONE;
+        task.setStatus(Status.DONE);
     }
 
     @Override
@@ -211,17 +215,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void putTask(Task task) {
-        tasks.put(task.id, task);
+        tasks.put(task.getId(), task);
     }
 
     @Override
     public void putEpic(Epic epic) {
-        epics.put(epic.id, epic);
+        epics.put(epic.getId(), epic);
     }
 
     @Override
     public void putSubtask(Subtask subtask) {
-        subtasks.put(subtask.id, subtask);
+        subtasks.put(subtask.getId(), subtask);
     }
 
     @Override

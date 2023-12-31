@@ -1,3 +1,7 @@
+package manager;
+
+import module.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -127,9 +131,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     break;
                 }
                 Task task = stringToTask(line);
-                if (task.type.equals(TypeTask.TASK)) {
+                if (task.getType().equals(TypeTask.TASK)) {
                     fbTaskManager.putTask(task);
-                } else if (task.type.equals(TypeTask.EPIC)) {
+                } else if (task.getType().equals(TypeTask.EPIC)) {
                     Epic epic = (Epic) task;
                     fbTaskManager.putEpic(epic);
                 } else {
@@ -137,8 +141,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     fbTaskManager.putSubtask(subtask);
                     List<Epic> epicsList = fbTaskManager.getEpics();
                     for (Epic epic : epicsList) {
-                        if (epic.id == subtask.getEpicId()) {
-                            epic.getSubtaskIds().add(subtask.id);
+                        if (epic.getId() == subtask.getEpicId()) {
+                            epic.getSubtaskIds().add(subtask.getId());
                         }
                     }
                 }
@@ -148,7 +152,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             List<Task> allTasks = fbTaskManager.getAllTasks();
             for (Integer taskId : historyList) {
                 for (Task task : allTasks) {
-                    if (taskId.equals(task.id)) {
+                    if (taskId.equals(task.getId())) {
                         fbTaskManager.historyManager.add(task);
                     }
                 }
@@ -267,7 +271,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                 List<Task> tasks = taskManagerFromFile.getTasks();
                 for (Task task : tasks) {
-                    if(task.id == taskId) {
+                    if(task.getId() == taskId) {
                         System.out.println("Выберите новый статус для задачи(1 - IN_PROGRESS, 2 - DONE):");
 
                         int choice = Integer.parseInt(sc.nextLine());
@@ -295,7 +299,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                 List<Epic> epics = taskManagerFromFile.getEpics();
                 for (Epic epic : epics) {
-                    if(epic.id == epicId){
+                    if(epic.getId() == epicId){
                         System.out.println(taskManagerFromFile.getSubtasksByEpic(epicId).toString());
 
                         System.out.println("Введите ID подзадачи, которую вы сделали или готовы начать делать?");
@@ -303,7 +307,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                         List<Subtask> subtasks = taskManagerFromFile.getSubtasks();
                         for (Subtask subtask : subtasks) {
-                            if (subtask.id == subtaskId) {
+                            if (subtask.getId() == subtaskId) {
                                 System.out.println("Выберите новый статус для подзадачи(1 - IN_PROGRESS, 2 - DONE):");
 
                                 int choice = Integer.parseInt(sc.nextLine());
@@ -327,7 +331,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 System.out.println(taskManagerFromFile);
 
             } else if (command == 9) {
-                System.out.println("Посмтреть: 1 - Task, 2 - Epic, 3 - Subtask");
+                System.out.println("Посмтреть: 1 - module.Task, 2 - module.Epic, 3 - module.Subtask");
                 int choice = Integer.parseInt(sc.nextLine());
 
                 System.out.println("Введите ID задачи:");

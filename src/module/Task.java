@@ -1,3 +1,5 @@
+package module;
+
 public class Task {
     protected int id;
     protected TypeTask type;

@@ -1,3 +1,9 @@
+import manager.Managers;
+import manager.TaskManager;
+import module.Epic;
+import module.Subtask;
+import module.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -95,7 +101,7 @@ public class Main {
 
                 List<Task> tasks = taskManager.getTasks();
                 for (Task task : tasks) {
-                    if(task.id == taskId) {
+                    if(task.getId() == taskId) {
 
                         System.out.println("Выберите новый статус для задачи(1 - IN_PROGRESS, 2 - DONE):");
 
@@ -125,7 +131,7 @@ public class Main {
 
                 List<Epic> epics = taskManager.getEpics();
                 for (Epic epic : epics) {
-                    if(epic.id == epicId){
+                    if(epic.getId() == epicId){
                         System.out.println(taskManager.getSubtasksByEpic(epicId).toString());
 
                         System.out.println("Введите ID подзадачи, которую вы сделали или готовы начать делать?");
@@ -133,7 +139,7 @@ public class Main {
 
                         List<Subtask> subtasks = taskManager.getSubtasks();
                         for (Subtask subtask : subtasks) {
-                            if (subtask.id == subtaskId) {
+                            if (subtask.getId() == subtaskId) {
                                 System.out.println("Выберите новый статус для подзадачи(1 - IN_PROGRESS, 2 - DONE):");
 
                                 int choice = Integer.parseInt(sc.nextLine());
@@ -158,7 +164,7 @@ public class Main {
                 System.out.println(taskManager);
 
             } else if (command == 9) {
-                System.out.println("Посмтреть: 1 - Task, 2 - Epic, 3 - Subtask");
+                System.out.println("Посмтреть: 1 - module.Task, 2 - module.Epic, 3 - module.Subtask");
                 int choice = Integer.parseInt(sc.nextLine());
 
                 System.out.println("Введите ID задачи:");
