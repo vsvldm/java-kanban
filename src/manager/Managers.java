@@ -10,6 +10,6 @@ public class Managers {
     }
 
     public static FileBackedTasksManager getFileBackedTasksManager() {
-        return new FileBackedTasksManager(new InMemoryHistoryManager());
+        return new FileBackedTasksManager(new InMemoryHistoryManager(), "resources/tasks.csv");
     }
 }

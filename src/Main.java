@@ -1,6 +1,7 @@
 import manager.FileBackedTasksManager;
 import manager.TaskManager;
 import module.Epic;
+import module.Status;
 import module.Subtask;
 import module.Task;
 
@@ -20,7 +21,6 @@ public class Main {
         System.out.println(taskManagerFromFile);
         System.out.println(taskManagerFromFile.getHistory().toString());
         System.out.println(taskManagerFromFile.getPrioritizedTasks().toString());
-
 
         while (true) {
             System.out.println("Введите команду:");
@@ -62,13 +62,8 @@ public class Main {
                 int startYear = Integer.parseInt(sc.nextLine());
 
                 LocalDateTime startDateTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
-                LocalDateTime endDateTime = startDateTime.plusMinutes(duration);
 
-                if(taskManagerFromFile.isIntersection(startDateTime, endDateTime)) {
-                    System.out.println("Данная задача может пересекаться по времени с существующей задачей!");
-                } else {
-                    taskManagerFromFile.createTask(new Task(++id, title, description, duration, startDateTime));
-                }
+                taskManagerFromFile.createTask(new Task(++id, title, description, duration, startDateTime));
                 System.out.println(taskManagerFromFile);
 
             } else if (command == 2) {
@@ -107,13 +102,9 @@ public class Main {
                 int startYear = Integer.parseInt(sc.nextLine());
 
                 LocalDateTime startDateTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
-                LocalDateTime endDateTime = startDateTime.plusMinutes(duration);
 
-                if(taskManagerFromFile.isIntersection(startDateTime, endDateTime)) {
-                    System.out.println("Данная задача может пересекаться по времени с существующей задачей!");
-                } else {
-                    taskManagerFromFile.createSubtask(epicId, new Subtask(++id, title, description, duration, startDateTime, epicId));
-                }
+                taskManagerFromFile.createSubtask(new Subtask(++id, title, description, duration, startDateTime, epicId));
+
 
                 System.out.println(taskManagerFromFile);
             }  else if (command == 4) {
@@ -155,10 +146,10 @@ public class Main {
 
                         switch (choice) {
                             case 1:
-                                taskManagerFromFile.taskInProgress(task);
+                                task.setStatus(Status.IN_PROGRESS);
                                 break;
                             case 2:
-                                taskManagerFromFile.taskIsDone(task);
+                                task.setStatus(Status.DONE);
                                 break;
                             default:
                                 break;
@@ -191,10 +182,10 @@ public class Main {
 
                                 switch (choice) {
                                     case 1:
-                                        taskManagerFromFile.taskInProgress(subtask);
+                                        subtask.setStatus(Status.IN_PROGRESS);
                                         break;
                                     case 2:
-                                        taskManagerFromFile.taskIsDone(subtask);
+                                        subtask.setStatus(Status.DONE);
                                         break;
                                     default:
                                         break;

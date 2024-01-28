@@ -7,10 +7,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    String path = "resources/tasks.csv";
+    String path;
 
-    public FileBackedTasksManager(HistoryManager historyManager) {
+    public FileBackedTasksManager(HistoryManager historyManager, String path) {
         super(historyManager);
+        this.path = path;
     }
 
     @Override
@@ -26,8 +27,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void createSubtask(int epicId, Subtask subtask) {
-        super.createSubtask(epicId, subtask);
+    public void createSubtask(Subtask subtask) {
+        super.createSubtask(subtask);
         save();
     }
 
@@ -141,13 +142,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     }
                     Task task = stringToTask(line);
                     if (task.getType().equals(TypeTask.TASK)) {
-                        fbTaskManager.putTask(task);
+                        fbTaskManager.createTask(task);
                     } else if (task.getType().equals(TypeTask.EPIC)) {
                         Epic epic = (Epic) task;
-                        fbTaskManager.putEpic(epic);
+                        fbTaskManager.createEpic(epic);
                     } else {
                         Subtask subtask = (Subtask) task;
-                        fbTaskManager.putSubtask(subtask);
+                        fbTaskManager.createSubtask(subtask);
                         List<Epic> epicsList = fbTaskManager.getEpics();
                         for (Epic epic : epicsList) {
                             if (epic.getId() == subtask.getEpicId()) {

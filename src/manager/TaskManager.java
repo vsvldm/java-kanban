@@ -11,7 +11,7 @@ import java.util.Set;
 public interface TaskManager {
     void createTask(Task task);
     void createEpic(Epic epic);
-    void createSubtask(int epicId, Subtask subtask);
+    void createSubtask(Subtask subtask);
     List<Subtask> getSubtasksByEpicId(int epicId);
     boolean updateTask(Task updatedTask);
     boolean updateEpic(Epic updatedEpic);
@@ -30,13 +30,7 @@ public interface TaskManager {
     void removeAllTasks();
     int getId();
     void setId(int id);
-    void putTask(Task task);
-    void putEpic(Epic epic);
-    void putSubtask(Subtask subtask);
     List<Task> getHistory();
-    void taskInProgress(Task task);
-    void taskIsDone(Task task);
     HistoryManager getHistoryManager();
     Set<Task> getPrioritizedTasks();
-    boolean isIntersection(LocalDateTime start, LocalDateTime end);
 }
