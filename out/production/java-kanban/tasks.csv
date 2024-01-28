@@ -1,6 +1,0 @@
-id,type,title,status,start,duration,description,epic
-1,TASK,Test Create Task 1,NEW,null,0,Desription
-2,EPIC,Test Create Epic 3,NEW,2024-01-27T11:00,10,Description
-3,SUBTASK,Test Subtask 3,NEW,2024-01-27T11:00,10,Description,2
-
-2,1
