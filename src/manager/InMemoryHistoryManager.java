@@ -21,7 +21,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private final Map<Integer, Node> nodes = new HashMap<>();
-
     private Node head;
     private Node tail;
 
@@ -60,8 +59,9 @@ public class InMemoryHistoryManager implements HistoryManager {
         for (Task task : taskHistory) {
             sb.append(task.getId()).append(",");
         }
-        sb.deleteCharAt(sb.length() - 1);
-
+        if(sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         return sb.toString();
     }
 
@@ -70,18 +70,23 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         if(head == node) {
             head = node.next;
-            head.prev = null;
-            return;
+            if(head != null){
+                head.prev = null;
+            }
         }
         if(tail == node) {
             tail = node.prev;
-            tail.next = null;
-            return;
+            if(tail != null) {
+                tail.next = null;
+            }
         }
         else {
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
-            return;
+            if(node.prev != null) {
+                node.prev.next = node.next;
+            }
+            if (node.next != null) {
+                node.next.prev = node.prev;
+            }
         }
     }
 
