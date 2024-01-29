@@ -12,7 +12,7 @@ public class Task {
     protected long duration;
     protected LocalDateTime startDateTime;
 
-    public Task(int id, String title, String description) {
+    protected Task(int id, String title, String description) {
         this.id = id;
         this.type = TypeTask.TASK;
         this.title = title;
