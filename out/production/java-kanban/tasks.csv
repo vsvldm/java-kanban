@@ -1,6 +1,0 @@
-id,type,title,status,start,duration,description,epic
-4,TASK,Test TASK 1,DONE,2024-01-29T00:00,10,Desription TASK
-6,TASK,Test TASK 2,NEW,2024-01-29T00:30,10,Desription TASK
-7,TASK,Test TASK 3,NEW,2024-01-29T00:20,5,Desription TASK
-8,TASK,Test TASK 4,NEW,2024-01-29T12:00,40,Description TASK
-
