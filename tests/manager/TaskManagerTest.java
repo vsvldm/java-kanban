@@ -151,7 +151,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getAllTasksTestCompletedList() {
-        TaskManager managerForGetAllTasks = Managers.getDefaultTaskManager();
+        TaskManager managerForGetAllTasks = Managers.getDefaultInMemoryTaskManager();
         managerForGetAllTasks.createTask(new Task(1, "Test Create Task 1", "Description", 15, LocalDateTime.of(2024,1,29,20,0)));
         managerForGetAllTasks.createTask(new Task(2, "Test Create Task 2", "Description", 15, LocalDateTime.of(2024,1,29,20,20)));
         managerForGetAllTasks.createTask(new Task(3, "Test Create Task 3", "Description", 15, LocalDateTime.of(2024,1,29,20,40)));
@@ -168,7 +168,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getAllTasksTestEmptyList() {
-        TaskManager managerForGetAllTasks = Managers.getDefaultTaskManager();
+        TaskManager managerForGetAllTasks = Managers.getDefaultInMemoryTaskManager();
         assertTrue(managerForGetAllTasks.getAllTasks().isEmpty());
     }
 
@@ -190,7 +190,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getTasksTestEmptyList() {
-        TaskManager managerForGetTasks = Managers.getDefaultTaskManager();
+        TaskManager managerForGetTasks = Managers.getDefaultInMemoryTaskManager();
         assertTrue(managerForGetTasks.getAllTasks().isEmpty());
     }
 
@@ -219,7 +219,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getEpicsTestEmptyList() {
-        TaskManager managerForGetEpics = Managers.getDefaultTaskManager();
+        TaskManager managerForGetEpics = Managers.getDefaultInMemoryTaskManager();
         assertTrue(managerForGetEpics.getAllTasks().isEmpty());
     }
 
@@ -243,7 +243,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
     @Test
     public void getSubtasksTestEmptyList() {
-        TaskManager managerForGetSubtasks = Managers.getDefaultTaskManager();
+        TaskManager managerForGetSubtasks = Managers.getDefaultInMemoryTaskManager();
         assertTrue(managerForGetSubtasks.getAllTasks().isEmpty());
     }
 
@@ -326,7 +326,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getMaxIdTest() {
-        TaskManager managerForGetMaxId = Managers.getDefaultTaskManager();
+        TaskManager managerForGetMaxId = Managers.getDefaultInMemoryTaskManager();
         managerForGetMaxId.createTask(new Task(150, "Test Create Task 1", "Description", 15, LocalDateTime.of(2024,1,29,20,0)));
         managerForGetMaxId.createTask(new Task(1, "Test Create Task 2", "Description", 15, LocalDateTime.of(2024,1,29,21,0)));
         manager.setId(managerForGetMaxId.getMaxId());
