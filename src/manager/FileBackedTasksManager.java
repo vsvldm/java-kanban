@@ -9,8 +9,7 @@ import java.util.*;
 public class FileBackedTasksManager extends InMemoryTaskManager {
     String path;
 
-    public FileBackedTasksManager(HistoryManager historyManager, String path) {
-        super(historyManager);
+    public FileBackedTasksManager(String path) {
         this.path = path;
     }
 
@@ -93,6 +92,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return subtask;
     }
 
+    @Override
+    public HistoryManager getHistoryManager() {
+        HistoryManager historyManager =  super.getHistoryManager();
+        //save();
+        return historyManager;
+    }
+
     private static Task stringToTask(String string) {
         String[] split = string.split(",");
         int id = Integer.parseInt(split[0]);
@@ -113,10 +119,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             int epicId = Integer.parseInt(split[7]);
             return new Subtask(id, type, title, description, status, duration, startDateTime, epicId);
         }
-    }
-
-    private static String historyToString(HistoryManager historyManager) {
-        return historyManager.toString();
     }
 
     private static List<Integer> stringToHistory(String string) {
@@ -164,7 +166,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     for (Integer taskId : historyList) {
                         for (Task task : allTasks) {
                             if (taskId.equals(task.getId())) {
-                                fbTaskManager.historyManager.add(task);
+                                fbTaskManager.getHistoryManager().add(task);
                             }
                         }
                     }
@@ -177,14 +179,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return fbTaskManager;
     }
 
-    private void save() {
+    protected void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             writer.write("id,type,title,status,start,duration,description,epic" + "\n");
             for (Task task : getAllTasks()) {
                 writer.write(task.toString() + "\n");
             }
             writer.write("\n");
-            writer.write(historyToString(getHistoryManager()));
+            writer.write(historyManager.toString());
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка при сохранении данных");
         }

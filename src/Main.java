@@ -1,26 +1,32 @@
-import manager.FileBackedTasksManager;
-import manager.TaskManager;
+import manager.HttpTaskManager;
+import manager.Managers;
 import module.Epic;
 import module.Status;
 import module.Subtask;
 import module.Task;
+import server.HttpTaskServer;
+import server.KVServer;
 
-import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-
-    public static void main(String[] args) {
-        File file = new File("resources", "tasks.csv");
-        TaskManager taskManagerFromFile = FileBackedTasksManager.loadFromFile(file);
+    public static void main(String[] args) throws IOException {
+        HttpTaskServer server = new HttpTaskServer();
+        server.start();
+    }
+    public static void main1(String[] args) throws IOException, InterruptedException {
+        KVServer server = new KVServer();
+        server.start();
+        HttpTaskManager taskManager = Managers.getHttpTaskManager();
         Scanner sc = new Scanner(System.in);
-        int id = taskManagerFromFile.getId();
-        System.out.println(taskManagerFromFile);
-        System.out.println(taskManagerFromFile.getHistory().toString());
-        System.out.println(taskManagerFromFile.getPrioritizedTasks().toString());
+        int id = taskManager.getId();
+        System.out.println(taskManager);
+        System.out.println(taskManager.getHistory().toString());
+        System.out.println(taskManager.getPrioritizedTasks().toString());
 
         while (true) {
             System.out.println("Введите команду:");
@@ -63,8 +69,8 @@ public class Main {
 
                 LocalDateTime startDateTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
 
-                taskManagerFromFile.createTask(new Task(++id, title, description, duration, startDateTime));
-                System.out.println(taskManagerFromFile);
+                taskManager.createTask(new Task(++id, title, description, duration, startDateTime));
+                System.out.println(taskManager);
 
             } else if (command == 2) {
                 System.out.println("Название эпика:");
@@ -73,9 +79,9 @@ public class Main {
                 System.out.println("Описане:");
                 String description = sc.nextLine();
 
-                taskManagerFromFile.createEpic(new Epic(++id, title, description, new ArrayList<>()));
+                taskManager.createEpic(new Epic(++id, title, description, new ArrayList<>()));
 
-                System.out.println(taskManagerFromFile);
+                System.out.println(taskManager);
 
             } else if (command == 3) {
                 System.out.println("Введите ID эпика:");
@@ -103,41 +109,41 @@ public class Main {
 
                 LocalDateTime startDateTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
 
-                taskManagerFromFile.createSubtask(new Subtask(++id, title, description, duration, startDateTime, epicId));
+                taskManager.createSubtask(new Subtask(++id, title, description, duration, startDateTime, epicId));
 
 
-                System.out.println(taskManagerFromFile);
+                System.out.println(taskManager);
             }  else if (command == 4) {
                 System.out.println("Введите ID задачи, которую хотите удалить:");
                 int taskId = Integer.parseInt(sc.nextLine());
-                taskManagerFromFile.removeTask(taskId);
-                System.out.println(taskManagerFromFile);
+                taskManager.removeTask(taskId);
+                System.out.println(taskManager);
 
             } else if (command == 5) {
                 System.out.println("Введите ID эпика, который хотите удалить:");
                 int epicId = Integer.parseInt(sc.nextLine());
 
-                taskManagerFromFile.removeEpic(epicId);
-                System.out.println(taskManagerFromFile);
+                taskManager.removeEpic(epicId);
+                System.out.println(taskManager);
             } else if (command == 6) {
                 System.out.println("Введите ID подзадачи, которую хотите удалить:");
                 int subtaskId = Integer.parseInt(sc.nextLine());
 
-                taskManagerFromFile.removeSubtask(subtaskId);
-                for (Epic epic : taskManagerFromFile.getEpics()) {
+                taskManager.removeSubtask(subtaskId);
+                for (Epic epic : taskManager.getEpics()) {
                     for (Subtask subtaskByEpic : epic.getSubtasks()) {
                         if(subtaskByEpic.getId() == subtaskId) {
                             epic.getSubtasks().removeIf(subtask -> subtask.getId() == subtaskId);
                         }
                     }
                 }
-                System.out.println(taskManagerFromFile);
+                System.out.println(taskManager);
 
             } else if (command == 7) {
                 System.out.println("Введите ID задачи, которую хотите обновить:");
                 int taskId = Integer.parseInt(sc.nextLine());
 
-                List<Task> tasks = taskManagerFromFile.getTasks();
+                List<Task> tasks = taskManager.getTasks();
                 for (Task task : tasks) {
                     if(task.getId() == taskId) {
                         System.out.println("Выберите новый статус для задачи(1 - IN_PROGRESS, 2 - DONE):");
@@ -154,8 +160,8 @@ public class Main {
                             default:
                                 break;
                         }
-                        taskManagerFromFile.updateTask(task);
-                        System.out.println(taskManagerFromFile);
+                        taskManager.updateTask(task);
+                        System.out.println(taskManager);
                     } else {
                         System.out.println("Нет задачи с таким ID!");
                     }
@@ -165,7 +171,7 @@ public class Main {
                 System.out.println("Введите ID эпика, который хотите обновить:");
                 int epicId = Integer.parseInt(sc.nextLine());
 
-                List<Epic> epics = taskManagerFromFile.getEpics();
+                List<Epic> epics = taskManager.getEpics();
                 for (Epic epic : epics) {
                     if(epic.getId() == epicId){
                         System.out.println(epic.getSubtasks().toString());
@@ -173,7 +179,7 @@ public class Main {
                         System.out.println("Введите ID подзадачи, которую вы сделали или готовы начать делать?");
                         int subtaskId = Integer.parseInt(sc.nextLine());
 
-                        List<Subtask> subtasks = taskManagerFromFile.getSubtasks();
+                        List<Subtask> subtasks = taskManager.getSubtasks();
                         for (Subtask subtask : subtasks) {
                             if (subtask.getId() == subtaskId) {
                                 System.out.println("Выберите новый статус для подзадачи(1 - IN_PROGRESS, 2 - DONE):");
@@ -190,13 +196,13 @@ public class Main {
                                     default:
                                         break;
                                 }
-                                taskManagerFromFile.updateSubtask(subtask);
+                                taskManager.updateSubtask(subtask);
                             }
                         }
-                        taskManagerFromFile.updateEpic(epic);
+                        taskManager.updateEpic(epic);
                     }
                 }
-                System.out.println(taskManagerFromFile);
+                System.out.println(taskManager);
 
             } else if (command == 9) {
                 System.out.println("Посмтреть: 1 - Task, 2 - Epic, 3 - Subtask");
@@ -207,13 +213,13 @@ public class Main {
 
                 switch (choice) {
                     case 1:
-                        System.out.println(taskManagerFromFile.getTask(tasksId));
+                        System.out.println(taskManager.getTask(tasksId));
                         break;
                     case 2:
-                        System.out.println(taskManagerFromFile.getEpic(tasksId));
+                        System.out.println(taskManager.getEpic(tasksId));
                         break;
                     case 3:
-                        System.out.println(taskManagerFromFile.getSubtask(tasksId));
+                        System.out.println(taskManager.getSubtask(tasksId));
                         break;
                     default:
                         break;

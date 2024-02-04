@@ -12,11 +12,11 @@ public class InMemoryTaskManager implements TaskManager {
     protected HistoryManager historyManager;
     protected Set<Task> prioritizeTasks;
 
-    public InMemoryTaskManager(HistoryManager historyManager) {
+    public InMemoryTaskManager() {
         this.tasks  = new HashMap<>();
         this.epics = new HashMap<>();
         this.subtasks = new HashMap<>();
-        this.historyManager = historyManager;
+        this.historyManager = Managers.getDefaultHistory();
         this.prioritizeTasks = new TreeSet<>(Comparator.comparing(Task::getStartDateTime));
     }
 
