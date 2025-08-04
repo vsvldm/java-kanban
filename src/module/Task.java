@@ -69,13 +69,15 @@ public class Task {
 
     @Override
     public String toString() {
-        return getId() + "," +
-                getType().toString() + "," +
-                getTitle() + "," +
-                getStatus().toString() + "," +
-                getStartDateTime() + "," +
-                getDuration() + "," +
-                getDescription();
+        return "Task{" +
+                "id=" + id +
+                ", type=" + type +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", duration=" + duration +
+                ", startDateTime=" + startDateTime +
+                '}';
     }
 
     public LocalDateTime getEndTime() {

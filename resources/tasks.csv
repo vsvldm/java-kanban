@@ -1,9 +1,2 @@
 id,type,title,status,start,duration,description,epic
-1,TASK,sdafsdf,NEW,0001-01-01T01:01,34,sdfsdf
-5,TASK,fghfgh,NEW,0004-04-04T04:04,89,fghfgh
-6,TASK,dfsdf,NEW,0005-05-05T05:05,56,sdfsdf
-2,EPIC,ewrwer,NEW,0002-02-02T02:02,268,werwer
-3,SUBTASK,eruyiyiuyui,NEW,0002-02-02T02:02,67,yuiyui,2
-4,SUBTASK,hjkhjk,NEW,0003-03-03T03:03,67,hjkhjkh,2
 
-2,3,4,5,6
